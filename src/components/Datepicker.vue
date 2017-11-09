@@ -1,5 +1,7 @@
 <template>
   <div class="vdp-datepicker" :class="[wrapperClass, isRtl ? 'rtl' : '']">
+    <!-- slot for any kind of element that triggers the datepicker -->
+    <slot></slot>
     <!-- Day View -->
     <template v-if="allowedToShowView('day')">
       <div :class="[calendarClass, 'vdp-datepicker__calendar']" v-show="showDayView" v-bind:style="calendarStyle">
@@ -798,6 +800,9 @@ export default {
       if (this.isInline) {
         this.setInitialView()
       }
+      this.$el.childNodes[0].addEventListener('click', e => {
+        this.showCalendar()
+      })
     }
   },
   mounted () {
