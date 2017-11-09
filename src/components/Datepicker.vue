@@ -97,20 +97,18 @@ export default {
       type: String,
       default: 'en'
     },
+    multiSelect: Boolean,
     fullMonthName: Boolean,
     disabled: Object,
     highlighted: Object,
-    placeholder: String,
     inline: Boolean,
     calendarClass: [String, Object],
-    inputClass: [String, Object],
     wrapperClass: [String, Object],
     mondayFirst: Boolean,
     clearButton: Boolean,
     clearButtonIcon: String,
     calendarButton: Boolean,
     calendarButtonIcon: String,
-    bootstrapStyling: Boolean,
     initialView: String,
     disabledPicker: Boolean,
     required: Boolean,
@@ -137,6 +135,12 @@ export default {
        */
       selectedDate: null,
       /*
+       * Selected Date End
+       * The end date in a multiselect daterange.
+       * {Date}
+       */
+      selectedDateEnd: null,
+      /*
        * Flags to show calendar views
        * {Boolean}
        */
@@ -146,7 +150,11 @@ export default {
       /*
        * Positioning
        */
-      calendarHeight: 0
+      calendarHeight: 0,
+      /*
+      * Determines if a multiselect range was already picked, to allow a repick.
+      */
+      alreadyPicked: false
     }
   },
   watch: {
@@ -374,8 +382,17 @@ export default {
       this.$emit('selected', new Date(date))
       this.$emit('input', new Date(date))
     },
+    setDateNew (key, timestamp) {
+      const date = new Date(timestamp)
+      this[key] = new Date(date)
+      this.setPageDate(date)
+      if (this.multiSelect && this.selectedDateEnd) {
+        this.$emit('selected', {start: this.selectedDate, end: this.selectedDateEnd})
+      }
+    },
     clearDate () {
       this.selectedDate = null
+      this.selectedDateEnd = null
       this.$emit('selected', null)
       this.$emit('input', null)
       this.$emit('cleared')
@@ -388,12 +405,22 @@ export default {
         this.$emit('selectedDisabled', day)
         return false
       }
-      this.setDate(day.timestamp)
       if (this.isInline) {
-        this.showDayCalendar()
-      } else {
-        this.close()
+        this.setDate(day.timestamp)
+        return this.showDayCalendar()
       }
+      if (this.multiSelect && (!this.selectedDate || this.alreadyPicked)) {
+        this.alreadyPicked = false
+        if (this.selectedDateEnd) this.selectedDateEnd = null
+        return this.setDateNew('selectedDate', day.timestamp)
+      }
+      if (this.multiSelect && this.selectedDate) {
+        this.setDateNew('selectedDateEnd', day.timestamp)
+        this.alreadyPicked = true
+        return this.close()
+      }
+      this.setDate(day.timestamp)
+      this.close()
     },
     /**
      * @param {Object} month
@@ -544,7 +571,9 @@ export default {
      * @return {Boolean}
      */
     isSelectedDate (dObj) {
-      return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString()
+      return this.selectedDate && this.selectedDate.toDateString() === dObj.toDateString() ||
+        this.selectedDateEnd && this.selectedDateEnd.toDateString() === dObj.toDateString() ||
+        (dObj > this.selectedDate && dObj < this.selectedDateEnd)
     },
     /**
      * Whether a day is disabled

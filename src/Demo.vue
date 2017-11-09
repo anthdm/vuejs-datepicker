@@ -5,7 +5,7 @@
 
     <div class="example">
       <h3>Default datepicker</h3>
-      <datepicker>
+      <datepicker :multiSelect="true">
         <button>click me</button>
       </datepicker>
       <code>
