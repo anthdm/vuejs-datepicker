@@ -2,15 +2,7 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/charliekassel/vuejs-datepicker/badge.svg?branch=master)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 
-A datepicker Vue component. Compatible with Vue 2.x
-
-NB. Vue 1.x was supported up to version v0.9.9. If you want to use this component with 1.x you can install with `npm install vuejs-datepicker@0.9.9`
-
-## Demo
-
-Demo is broken :(
-To view examples clone the repo and run `npm install && npm run dev`
-https://www.webpackbin.com/bins/-KhQbtTSVuU6r8VCrIdC - not currently working.
+|> This repo is forked from charliekasses/vuejs-datepicker and is currently ongoing drastic API changes. Therefore this repo is considered *unstable*.
 
 ## Install
 
