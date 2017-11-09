@@ -2,7 +2,7 @@
 
 ![](https://travis-ci.org/charliekassel/vuejs-datepicker.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/charliekassel/vuejs-datepicker/badge.svg?branch=master)](https://coveralls.io/github/charliekassel/vuejs-datepicker?branch=master)
 
-|> This repo is forked from charliekasses/vuejs-datepicker and is currently ongoing drastic API changes. Therefore this repo is considered *unstable*.
+> This repo is forked from charliekasses/vuejs-datepicker and is currently ongoing drastic API changes. Therefore this repo is considered *unstable*.
 
 ## Install
 
